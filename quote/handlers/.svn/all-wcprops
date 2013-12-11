@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/activecollab/3.2.10/modules/quote/handlers
+END
+on_available_project_tabs.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/2/trunk/activecollab/3.2.10/modules/quote/handlers/on_available_project_tabs.php
+END
+on_object_options.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/2/trunk/activecollab/3.2.10/modules/quote/handlers/on_object_options.php
+END
+on_quick_add.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/2/trunk/activecollab/3.2.10/modules/quote/handlers/on_quick_add.php
+END
+on_project_tabs.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/2/trunk/activecollab/3.2.10/modules/quote/handlers/on_project_tabs.php
+END
+on_main_menu.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/2/trunk/activecollab/3.2.10/modules/quote/handlers/on_main_menu.php
+END

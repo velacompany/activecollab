@@ -1,0 +1,133 @@
+10
+
+dir
+0
+https://activecollabs.googlecode.com/svn/trunk/activecollab/3.2.10/modules/quote/models/tcpdf
+https://activecollabs.googlecode.com/svn
+add
+
+
+
+
+
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+564e74a7-ebd9-89db-ca4d-4886ed0fcdf4
+
+CHANGELOG.TXT
+file
+
+
+
+add
+
+LICENSE.TXT
+file
+
+
+
+add
+
+README.TXT
+file
+
+
+
+add
+
+composer.json
+file
+
+
+
+add
+
+config
+dir
+
+
+
+add
+
+examples
+dir
+
+
+
+add
+
+fonts
+dir
+
+
+
+add
+
+include
+dir
+
+
+
+add
+
+tcpdf.php
+file
+
+
+
+add
+
+tcpdf_autoconfig.php
+file
+
+
+
+add
+
+tcpdf_barcodes_1d.php
+file
+
+
+
+add
+
+tcpdf_barcodes_2d.php
+file
+
+
+
+add
+
+tcpdf_import.php
+file
+
+
+
+add
+
+tcpdf_parser.php
+file
+
+
+
+add
+
+tools
+dir
+
+
+
+add
+

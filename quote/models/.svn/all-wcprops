@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/2/trunk/activecollab/3.2.10/modules/quote/models
+END
+Quote.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/2/trunk/activecollab/3.2.10/modules/quote/models/Quote.class.php
+END
+MyQuoteFile.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/2/trunk/activecollab/3.2.10/modules/quote/models/MyQuoteFile.class.php
+END
+Email.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/2/trunk/activecollab/3.2.10/modules/quote/models/Email.php
+END

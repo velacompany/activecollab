@@ -1,0 +1,224 @@
+<?php
+
+// Build on top of backend controller
+AngieApplication::useController('backend', ENVIRONMENT_FRAMEWORK_INJECT_INTO);
+
+/**
+ * System level calendar
+ *
+ * @package activeCollab.modules.calendar
+ * @subpackage controllers
+ */
+class QuoteController extends BackendController
+{
+
+    /**
+     * Active module
+     *
+     * @var string
+     */
+    protected $active_module = QUOTE_MODULE;
+    protected $active_file;
+
+    /**
+     * Prepare controller
+     */
+    function __before()
+    {
+        parent::__before();
+
+        $this->wireframe->tabs->clear();
+        $this->wireframe->tabs->add('quote', lang('Quote'), Router::assemble('dashboard_quote'), null, true);
+
+        EventsManager::trigger('on_quote_tabs', array(&$this->wireframe->tabs, &$this->logged_user));
+
+        $this->wireframe->breadcrumbs->add('quote', lang('Quote '), Router::assemble('dashboard_quote'));
+        $this->wireframe->setCurrentMenuItem('quote');
+
+        // create Flyout form
+        if ($this->request->isWebBrowser() && (in_array($this->request->getAction(), array('index', 'view')))) {
+            $this->wireframe->actions->add('add_quote', lang('New Quote'), Router::assemble('add_quote'), array(
+                'icon' => AngieApplication::getImageUrl('layout/button-add.png', ENVIRONMENT_FRAMEWORK, AngieApplication::getPreferedInterface()),
+            ));
+        } // if
+    }
+
+    /**
+
+     */
+    function index()
+    {
+        $data = array();
+        $quote = new Quote();
+        $data = $quote->getData();
+        $this->smarty->assign(array(
+            'title' => 'Quote ',
+            'image' => AngieApplication::getImageUrl('main-menu/quote.png', QUOTE_MODULE),
+            'action_url' => Router::assemble('dashboard_quote'),
+            'url_load' => MY_PATH,
+            'url_image_del' => AngieApplication::getImageUrl('icons/16x16/del.png', QUOTE_MODULE),
+            'data' => $data,
+            'url_' => 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . '?path_info=',
+        ));
+        if ($this->request->isSubmitted()) {
+            echo 'success';
+            exit();
+        }
+
+    } // quote
+
+
+    function add()
+    {
+        $this->wireframe->breadcrumbs->add('quote', lang('Quote '), Router::assemble('dashboard_quote'));
+        if ($this->request->post()) {
+            $data = array();
+            $data['fullname'] = $this->request->post('fullname');
+            $data['email_address'] = $this->request->post('email_address');
+            $data['name_of_your_project'] = $this->request->post('name_of_your_project');
+            $data['project_type'] = $this->request->post('project_type');
+            $data['company_name'] = $this->request->post('company_name');
+            $data['address'] = $this->request->post('address');
+            $data['city_state_zip'] = $this->request->post('city_state_zip');
+            $data['website_example'] = $this->request->post('website_example');
+            $data['phone'] = $this->request->post('phone');
+            $data['website_url'] = $this->request->post('website_url');
+            $data['type_of_website'] = $this->request->post('type_of_website');
+            $data['project_budget'] = $this->request->post('project_budget');
+            $data['time_contactf'] = $this->request->post('time_contactf');
+            $data['how_did_youhear'] = $this->request->post('how_did_youhear');
+            $data['note_or_comment'] = $this->request->post('note_or_comment');
+
+            $Quote = new Quote();
+            /* add data to quote*/
+
+            /* upload file */
+            if (isset($_FILES['design_document'])) {
+                if ($_FILES['design_document']['name'] != '') {
+                    $this->active_file = new MyQuoteFile($_FILES['design_document']);
+                    $q = $this->active_file->Upload();
+                    $data['design_document'] = $q['file_name'];
+                }
+                //if
+            }
+            //if
+            $Quote->addQuote($data);
+            /* add data to quote_item */
+            $receiveId = $Quote->getQuoteLateId();
+            $quoteId = $receiveId['id'];
+            $max = $this->request->post('max');
+            for ($i = 1; $i <= $max; $i++) {
+                $dataItem['quote_id'] = $quoteId;
+                $dataItem['description'] = $this->request->post('description_' . $i);
+                $dataItem['service_date'] = $this->request->post('service_date_' . $i);
+                $dataItem['time_rate'] = $this->request->post('time_rate_' . $i);
+                $dataItem['total'] = $this->request->post('total_' . $i);
+                $Quote->addQuote($dataItem, $table = 'quote_item');
+            }
+
+            $curUrl = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . '?path_info=dashboard/quote';
+            header("Location: {$curUrl}");
+            exit();
+
+        }
+
+    }
+
+    function edit()
+    {
+        $quote = new Quote();
+        $id = explode('/', $_GET['path_info']);
+        $dataTrans = $quote->getById($id[1]);
+        $dataQuoteId = $quote->get_where('quote_item', array('quote_id' => $id[1]));
+
+        $this->smarty->assign(array(
+            'dataEdit' => $dataTrans,
+            'quoteItem' => $dataQuoteId,
+            'i' => 1,
+        ));
+
+        if ($this->request->post()) {
+
+            if ($this->request->post('submit') == 'save') {
+
+                $dataReceive['fullname'] = $this->request->post('fullname');
+                $dataReceive['email_address'] = $this->request->post('email_address');
+                $dataReceive['name_of_your_project'] = $this->request->post('name_of_your_project');
+                $dataReceive['project_type'] = $this->request->post('project_type');
+                $dataReceive['company_name'] = $this->request->post('company_name');
+                $dataReceive['address'] = $this->request->post('address');
+                $dataReceive['city_state_zip'] = $this->request->post('city_state_zip');
+                $dataReceive['website_example'] = $this->request->post('website_example');
+                $dataReceive['phone'] = $this->request->post('phone');
+                $dataReceive['website_url'] = $this->request->post('website_url');
+                $dataReceive['type_of_website'] = $this->request->post('type_of_website');
+                $dataReceive['project_budget'] = $this->request->post('project_budget');
+                $dataReceive['time_contactf'] = $this->request->post('time_contactf');
+                $dataReceive['how_did_youhear'] = $this->request->post('how_did_youhear');
+                $dataReceive['note_or_comment'] = $this->request->post('note_or_comment');
+
+                // request file
+                if (isset($_FILES['design_document'])) {
+                    if ($_FILES['design_document']['name'] != '' && $_FILES['design_document']['name'] != $this->request->post('file_old')) {
+                        $this->active_file = new MyQuoteFile($_FILES['design_document']);
+                        $q = $this->active_file->Upload();
+                        $file_old = $this->request->post('file_old');
+                        $dataReceive['design_document'] = $q['file_name'];
+                        @unlink($_SERVER['DOCUMENT_ROOT'] . '/upload/' . $file_old);
+                    }
+                    //if
+                }
+
+
+                $rsEdit = $quote->update($dataReceive, array('id' => $id[1]), 'quote');
+                foreach ($_POST as $key => $value) {
+                    if (substr($key, 0, 3) == 'id-') {
+                        $dataI['description'] = $this->request->post('description_' . $value);
+                        $dataI['service_date'] = $this->request->post('service_date_' . $value);
+                        $dataI['time_rate'] = $this->request->post('time_rate_' . $value);
+                        $dataI['total'] = $this->request->post('total_' . $value);
+                        $id = $value;
+                        $quote->update($dataI, array('id' => $id), 'quote_item');
+
+                    }
+                }
+
+
+                $curUrl = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . '?path_info=dashboard/quote';
+                header("Location: {$curUrl}");
+                exit();
+            }//end if save change
+
+            if ($this->request->post('submit') == 'mail') {
+
+            }//end if send mail
+
+
+        }
+
+    }
+
+    function delete()
+    {
+        $quote = new Quote();
+        $id = explode('/', $_GET['path_info']);
+        $rs = $quote->delete($id[1], 'quote');
+        $curUrl = $_SERVER['HTTP_REFERER'];
+        header('Location: ' . $curUrl);
+        exit;
+    }
+
+    function download()
+    {
+
+        if ($this->$active_file->getType() == 'file') {
+            $this->response->respondWithFileDownload($this->$active_file->get, $this->$active_file->getMimeType(), $this->$active_file->getName(), $this->request->get('force'));
+        } else {
+            $this->response->badRequest();
+        } // if
+        // if
+    } // download
+    /**
+     * Show quote
+     */
+}

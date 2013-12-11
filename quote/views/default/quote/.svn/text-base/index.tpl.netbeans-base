@@ -1,0 +1,55 @@
+{title}{$title}{/title}
+
+<div>
+    <div id="quote_module_manage">
+        <div class="fields_wrapper">
+            <div class="object_title">Management</div>
+            <table cellspacing="0">
+                <tbody>
+                {foreach from=$data key=id item=row}
+                <tr class="">
+                    <td>
+                        <a rel="{$row.id}" class="action"> {$row.fullname}</a>
+                        <a rel="2" class="action-icon"  href=""><i class="action-icon" id="{$row.id}" ><img src="{$url_image_del}"/></i></a>
+                    </td>
+                </tr>
+                {/foreach}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="controll">
+        <div class="center">
+            <div class="object_title">Quote</div>
+            <div class="logo"><img src="{$image}" alt=""/></div>
+            <ul class="list_option">
+                <li><a id="new_quote" href="{assemble route='add_quote'}">New quote </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="url" id="url" value="{$url_}" />
+<script>
+    function deleletconfig($url){
+
+        var del=confirm("Are you sure you want to delete this record?");
+        if (del==true){
+            window.location=$url;
+        }
+    }
+
+    $(document).ready(function(){
+       $("a.action").click(function(){
+            var id = $(this).attr('rel');
+           var url = $("#url").val();
+          window.location= url+'edit/'+id+'/quote';
+       }) ;
+
+        $("i.action-icon").click(function(){
+            var id = $(this).attr('id');
+            var url = $("#url").val()+'delete/'+id+'/quote';
+            return deleletconfig(url);
+        }) ;
+    });
+</script>

@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * Calendar module definition
+ *
+ * @package activeCollab.modules.calendar
+ * @subpackage models
+ */
+class QuoteModule extends AngieModule
+{
+
+    /**
+     * Plain module name
+     *
+     * @var string
+     */
+    protected $name = 'quote';
+
+    /**
+     * Module version
+     *
+     * @var string
+     */
+    protected $version = '3.0';
+
+    // ---------------------------------------------------
+    //  Events and Routes
+    // ---------------------------------------------------
+
+    /**
+     * Define module routes
+     *@deprecated
+     * @return null
+     */
+    function defineRoutes()
+    {
+        Router::map('dashboard_quote', 'dashboard/quote', array('controller' => 'quote', 'action' => 'index'));
+        Router::map('add_quote', 'add/quote', array('controller' => 'quote', 'action' => 'add'));
+        Router::map('edit_quote', 'edit/:quote_id/quote', array('controller' => 'quote', 'action' => 'edit'),array('quote_id'=>Router::MATCH_ID));
+        Router::map('delete_quote', 'delete/:quote_id/quote', array('controller' => 'quote', 'action' => 'delete'),array('quote_id'=>Router::MATCH_ID));
+        Router::map('convert_quote', 'convert/:quote_id/quote', array('controller' => 'quote', 'action' => 'convert'),array('quote_id'=>Router::MATCH_ID));
+        Router::map('api_quote', 'api/quote', array('controller' => 'quote', 'action' => 'api'));
+        
+    } // defineRoutes
+
+    /**
+     * Define event handlers
+     */
+    function defineHandlers()
+    {
+        EventsManager::listen('on_main_menu', 'on_main_menu');
+        EventsManager::listen('on_project_tabs', 'on_project_tabs');
+        EventsManager::listen('on_available_project_tabs', 'on_available_project_tabs');
+        EventsManager::listen('on_object_options', 'on_object_options');
+        EventsManager::listen('on_quick_add', 'on_quick_add');
+    } // defineHandlers
+
+    // ---------------------------------------------------
+    //  Names
+    // ---------------------------------------------------
+
+    /**
+     * Get module display name
+     *
+     * @return string
+     */
+
+    function getDisplayName()
+    {
+        return lang('Quote');
+    } // getDisplayName
+
+    /**
+     * Return module description
+     *
+     * @param void
+     * @return string
+     */
+    function getDescription()
+    {
+        return lang('Enables viewing project data in a Quote. ');
+    } // getDescription
+
+    /**
+     * Return module uninstallation message
+     *
+     * @param void
+     * @return string
+     */
+    function getUninstallMessage()
+    {
+        return lang('Module will be deactivated. Data that is shown in the Quote will not be deleted');
+    } // getUninstallMessage
+
+}

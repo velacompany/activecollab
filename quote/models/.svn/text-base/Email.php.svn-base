@@ -1,0 +1,95 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: MrHung
+ * Date: 12/7/13
+ * Time: 11:11 AM
+ */
+
+class Email
+{
+
+
+    protected $fromEmail;
+    protected $toEmail;
+    protected $subject;
+    protected $Attachment;
+
+
+    //getter
+    function getFromEmal()
+    {
+        return $this->fromEmail;
+    }
+
+    function getToEmail()
+    {
+        return $this->toEmail;
+    }
+
+    function getSubject()
+    {
+        return $this->subject;
+    }
+
+    function getAttachment()
+    {
+        return $this->Attachment;
+    }
+
+    //setter
+    function setFromEmail($value)
+    {
+        return $this->fromEmail = $value;
+    }
+
+    function setToEmail($value)
+    {
+        return $this->toEmail = $value;
+    }
+
+    function setSubject($value)
+    {
+        return $this->subject = $value;
+    }
+
+    function setAttachment($value)
+    {
+        return $this->Attachment = $value;
+    }
+
+
+    //contruct
+    function Email($data = array())
+    {
+        include 'phpMailer/class.phpmailer.php';
+        $mail = new PHPMailer(); // defaults to using php "mail()"
+
+        $mail->IsSendmail(); // telling the class to use SendMail transport
+
+        $body = '<h2> body ne<h2/>';
+        $body = preg_replace("[\]", '', $body);
+
+        $mail->SetFrom('nguyenthanhhungbt1905@gmail.com', 'thanh hung Last');
+
+        $mail->AddReplyTo("mrhungmaster1905@gmail.com", "mrhung Last");
+
+        $address = "http:24h.com.vn";
+        $mail->AddAddress($address, "thanh hung");
+
+        $mail->Subject = "Lucenone test mailer";
+
+        $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+
+        $mail->MsgHTML($body);
+
+        $mail->AddAttachment("images/phpmailer.gif"); // attachment
+        $mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
+
+        if (!$mail->Send()) {
+            echo "Mailer Error: " . $mail->ErrorInfo;
+        } else {
+            echo "Message sent!";
+        }
+    }
+} 

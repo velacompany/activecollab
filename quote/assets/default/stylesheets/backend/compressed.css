@@ -1,0 +1,16 @@
+#quote_module_container{
+    position: absolute;
+}
+#quote_module_manage{
+    position: relative;
+    width: 40%;
+    float: left;
+}
+.table_quote_manage{
+    width: 200px;
+}
+#controll{
+    width: 55%;
+    float: left;
+    position: relative;
+}

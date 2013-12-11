@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * Calendar module initialization file
+ *
+ * @package activeCollab.modules.calendar
+ */
+
+define('QUOTE_MODULE', 'quote');
+define('QUOTE_MODULE_PATH', APPLICATION_PATH . '/modules/quote');
+
+AngieApplication::setForAutoload('Quote', QUOTE_MODULE_PATH . '/models/quote.class.php');
+AngieApplication::setForAutoload('MyQuoteFile', QUOTE_MODULE_PATH . '/models/MyQuoteFile.class.php');
+/**
+ * Returns true if $user can see $profile calendar
+ *
+ * @param User $user
+ * @return boolean
+ */
